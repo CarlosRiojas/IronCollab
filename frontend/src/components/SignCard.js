@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Space, Button, Form, Input, Checkbox } from 'antd';
+import { signupFunc, loginFunc } from '../services/auth';
+import { useContextInfo } from '../hooks/context';
 
 
 const layout = {
@@ -11,9 +13,25 @@ const tailLayout = {
 };
 
 
-function SignupCard() {
-    const onFinish = (values) => {
-        console.log('Success:', values);
+const SignupCard = ({ history }) => {
+    //const [form] = Form.useForm();
+    const { signup } = useContextInfo();
+    const [error, setError] = useState(null);
+
+    async function onFinish(values) {
+        try {
+            await signupFunc(values)
+            console.log('Success:', values);
+            const { data } = await loginFunc(values);
+            signup(data);
+            history.push("/MainHub")
+        }
+        catch (e) {
+            console.log(e);
+            setError(e.response.data.message)
+        } finally {
+
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -29,9 +47,9 @@ function SignupCard() {
             onFinishFailed={onFinishFailed}
         >
             <Form.Item
-                label="Username"
-                name="username"
-                rules={[{ required: true, message: 'Please input your username!' }]}
+                label="email"
+                email="email"
+                rules={[{ required: true, message: 'Please input your email!' }]}
             >
                 <Input />
             </Form.Item>

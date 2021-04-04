@@ -1,50 +1,42 @@
 
-import { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 
-import { currentUserFn } from '../services/auth';
+import { currentUserFunc } from '../services/auth';
 
 export const AppContext = createContext();
 
 export const AppCtxProvider = (props) => {
-    //es importa recordar que user el JSON de la respuesta del back end, no necesariamente un usuario
-    const [user, setUser] = useState(null);
-    //actualizar user
-    const [userUpdtade, setUserUpdtade] = useState(false);
+
+    const [user, setUser] = useState(null)
+
+    const [userUpdate, setUsrUpdate] = useState(false)
+
 
     useEffect(() => {
         async function getSessionData() {
-            const { data } = await currentUserFn();
-            login(data);
+            const { data } = await currentUserFunc()
+            login(data)
         }
+        getSessionData()
+        setUsrUpdate(false)
 
-        getSessionData();
-        //vinculado a actualizar el estado
-        setUserUpdtade(false);
-    }, [userUpdtade]);
+    }, [userUpdate])
 
-    const login = (userInfo) => {
-        setUser(userInfo);
-    };
+    const login = (userInf) => {
+        setUser(userInf)
+    }
 
-    const signup = (userInfo) => {
-        setUser(userInfo);
-    };
-
-    // const getWishes = (userInfo) => {
-    //   setUser(userInfo);
-    // };
-
-    const addProfilePic = (img) => setUser({ ...user, img });
+    const signup = (userInf) => {
+        setUser(userInf)
+    }
 
     const logout = () => {
-        setUser(null);
-    };
+        setUser(null)
+    }
 
-    const value = { user, login, logout, signup, setUserUpdtade, addProfilePic };
+    const value = { user, login, logout, signup, setUsrUpdate }
 
-    return <AppContext.Provider {...props} value={value} />;
-};
+    return <AppContext.Provider {...props} value={value} />
+}
 
-// Opcional: agregamos un custom hook para evitar consumir en cada componente nuestro ctx
-
-export const useContextInfo = () => useContext(AppContext);
+export const useContextInfo = () => useContext(AppContext)

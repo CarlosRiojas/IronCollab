@@ -8,7 +8,7 @@ passport = require('../config/passport')
 exports.signupProcessUser = async (req, res) => {
     try {
         const { email, password, name } = req.body
-        if (!email || !password || !name) {
+        if (!email || !password) {
             return res.status(403).json({ message: "Please provide an email and a password" })
             //validates data being written or not ^
         }
