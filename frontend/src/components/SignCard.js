@@ -14,7 +14,7 @@ const tailLayout = {
 
 
 const SignupCard = ({ history }) => {
-    //const [form] = Form.useForm();
+    const [form] = Form.useForm();
     const { signup } = useContextInfo();
     const [error, setError] = useState(null);
 

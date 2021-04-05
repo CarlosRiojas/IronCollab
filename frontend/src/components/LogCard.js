@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Space, Button, Form, Input, Checkbox } from 'antd';
 import { loginFunc } from '../services/auth';
-
+import { useContextInfo } from '../hooks/context';
 
 const layout = {
     labelCol: { span: 8 },
@@ -13,13 +13,16 @@ const tailLayout = {
 
 
 const LoginCard = ({ history }) => {
-    //const [form] = Form.useForm();
+    const [form] = Form.useForm();
     const [error, setError] = useState(null);
+    const { login } = useContextInfo();
+
 
     async function onFinish(values) {
         try {
-            await loginFunc(values)
             console.log('Success:', values);
+            const { data } = await loginFunc(values);
+            login(data)
             history.push("/MainHub")
         }
         catch (e) {
