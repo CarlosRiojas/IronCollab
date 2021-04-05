@@ -65,7 +65,7 @@ const LoginCard = ({ history }) => {
             <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit">
                     Submit
-        </Button>
+            </Button>
             </Form.Item>
         </Form>
     )

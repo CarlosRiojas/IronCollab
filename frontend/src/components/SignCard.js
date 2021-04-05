@@ -18,13 +18,13 @@ const SignupCard = ({ history }) => {
     const { signup } = useContextInfo();
     const [error, setError] = useState(null);
 
-    async function onFinish(values) {
+    async function onFinish(values) { //traemos valores del form despues de dar SUBMIT
         try {
-            await signupFunc(values)
+            await signupFunc(values)//hacemos signup con los servicios
             console.log('Success:', values);
-            const { data } = await loginFunc(values);
-            signup(data);
-            history.push("/MainHub")
+            const { data } = await loginFunc(values);//hacemos login justo
+            signup(data);//usamos la data del context para hacer signhup
+            history.push("/MainHub")// redirigimos al MainHub
         }
         catch (e) {
             console.log(e);
@@ -47,6 +47,14 @@ const SignupCard = ({ history }) => {
             onFinishFailed={onFinishFailed}
         >
             <Form.Item
+                label="name"
+                name="name"
+                rules={[{ required: true, message: 'Please input your name' }]}
+            >
+                <Input />
+            </Form.Item>
+
+            <Form.Item
                 label="email"
                 email="email"
                 rules={[{ required: true, message: 'Please input your email!' }]}
@@ -61,6 +69,7 @@ const SignupCard = ({ history }) => {
             >
                 <Input.Password />
             </Form.Item>
+
 
             <Form.Item {...tailLayout} name="remember" valuePropName="checked">
                 <Checkbox>Remember me</Checkbox>
